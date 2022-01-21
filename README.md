@@ -1,6 +1,6 @@
 # pmis
 
-[![builds.sr.ht status](https://builds.sr.ht/~misterio/pmis.svg)](https://builds.sr.ht/~misterio/pmis.me?)
+[![builds.sr.ht status](https://builds.sr.ht/~misterio/pmis.svg)](https://builds.sr.ht/~misterio/pmis?)
 [![built with nix](https://img.shields.io/static/v1?logo=nixos&logoColor=white&label=&message=Built%20with%20Nix&color=41439a)](https://builtwithnix.org)
 ## About
 
