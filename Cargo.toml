@@ -1,0 +1,12 @@
+[package]
+name = "pmis"
+description = "Companion CLI tool for paste.misterio.me"
+version = "0.1.0"
+authors = [ "Gabriel Fontes <eu@misterio.me>" ]
+readme = "README.md"
+repository = "https://sr.ht/~misterio/paste.misterio.me"
+homepage = "https://paste.misterio.me"
+edition = "2018"
+license = "GPL-3.0-or-later"
+
+[dependencies]
