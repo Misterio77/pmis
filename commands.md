@@ -24,6 +24,9 @@ pmis delete <id>
     Requires authentication
     Aliased to pmis del
 
+pmis user [username]
+    Defaults to own user, if authenticated.
+
 
 pmis register <username> <email>
     Reads password interactively from STDIN
