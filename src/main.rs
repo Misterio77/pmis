@@ -1,4 +1,8 @@
-use clap::{App, AppSettings::DisableHelpSubcommand, IntoApp, Parser, Subcommand};
+use clap::{
+    App,
+    AppSettings::{DisableHelpSubcommand, Hidden},
+    IntoApp, Parser, Subcommand,
+};
 use clap_complete::{generate, Generator, Shell};
 use std::io;
 
@@ -59,6 +63,7 @@ enum Commands {
     /// Authenticates using an API key
     Auth,
     /// Generate shell completions
+    #[clap(setting(Hidden))]
     Completions { shell: Shell },
 }
 

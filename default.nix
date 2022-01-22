@@ -15,9 +15,9 @@ rustPlatform.buildRustPackage rec {
 
   postInstall = ''
     installShellCompletion --cmd pmis \
-      --zsh <($out/bin/pmis --completions zsh) \
-      --fish <($out/bin/pmis --completions fish) \
-      --bash <($out/bin/pmis --completions bash)
+      --zsh <($out/bin/pmis completions zsh) \
+      --fish <($out/bin/pmis completions fish) \
+      --bash <($out/bin/pmis completions bash)
   '';
 
   meta = with lib; {
