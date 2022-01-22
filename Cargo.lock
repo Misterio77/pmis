@@ -81,14 +81,12 @@ dependencies = [
  "globset",
  "once_cell",
  "path_abs",
- "regex",
  "semver",
  "serde",
  "serde_yaml",
  "syntect",
  "thiserror",
  "unicode-width",
- "walkdir",
 ]
 
 [[package]]
@@ -1264,9 +1262,7 @@ version = "4.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8b20815bbe80ee0be06e6957450a841185fcf690fe0178f14d77a05ce2caa031"
 dependencies = [
- "bincode",
  "bitflags",
- "flate2",
  "fnv",
  "lazy_static",
  "lazycell",
@@ -1277,7 +1273,6 @@ dependencies = [
  "serde_derive",
  "serde_json",
  "walkdir",
- "yaml-rust",
 ]
 
 [[package]]

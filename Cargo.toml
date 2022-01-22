@@ -48,4 +48,4 @@ version = "0.2"
 [dependencies.bat]
 version = "0.19"
 default-features = false
-features = [ "build-assets", "regex-onig" ]
+features = ["regex-onig" ]
