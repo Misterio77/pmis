@@ -1,5 +1,5 @@
+use crate::{DateTime, Utc, Uuid};
 use serde::Deserialize;
-use crate::{Uuid, DateTime, Utc};
 
 #[derive(Deserialize)]
 pub struct Paste {

@@ -1,7 +1,8 @@
-{ lib, rustPlatform, openssl, pkg-config }:
+{ lib, rustPlatform, openssl, pkg-config, installShellFiles }:
 
 let manifest = (lib.importTOML ./Cargo.toml).package;
-in rustPlatform.buildRustPackage rec {
+in
+rustPlatform.buildRustPackage rec {
   pname = manifest.name;
   version = manifest.version;
 
@@ -9,8 +10,15 @@ in rustPlatform.buildRustPackage rec {
 
   cargoLock.lockFile = ./Cargo.lock;
 
-  buildInputs = [openssl];
-  nativeBuildInputs = [ pkg-config ];
+  buildInputs = [ openssl ];
+  nativeBuildInputs = [ pkg-config installShellFiles ];
+
+  postInstall = ''
+    installShellCompletion --cmd pmis \
+      --zsh <($out/bin/pmis --completions zsh) \
+      --fish <($out/bin/pmis --completions fish) \
+      --bash <($out/bin/pmis --completions bash)
+  '';
 
   meta = with lib; {
     description = manifest.desciption;

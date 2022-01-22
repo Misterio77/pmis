@@ -1,4 +1,4 @@
-use crate::{Paste, Result, Url, Uuid};
+use crate::{Client, Paste, Result, Url, Uuid};
 
 use anyhow::anyhow;
 use atty::Stream;
@@ -7,7 +7,7 @@ use chrono_humanize::HumanTime;
 use reqwest::StatusCode;
 
 pub async fn download(api: Url, id: Uuid, raw: bool) -> Result<()> {
-    let client = reqwest::Client::new();
+    let client = Client::new();
 
     let url = api.join(&format!("/p/{}", id))?;
     let res = client.get(url).send().await?;
@@ -28,7 +28,10 @@ pub async fn download(api: Url, id: Uuid, raw: bool) -> Result<()> {
             .input(
                 Input::from_bytes(paste.content.as_bytes())
                     .name(title)
-                    .title(format!("{} // by u/{}, {} - {}", title, creator, time, visibility)),
+                    .title(format!(
+                        "{} // by u/{}, {} - {}",
+                        title, creator, time, visibility
+                    )),
             )
             .line_numbers(true)
             .header(true)

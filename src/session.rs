@@ -17,7 +17,9 @@ impl Session {
     pub fn load() -> Result<Self> {
         Ok(Self {
             api_key: fs::read_to_string(path()?)
-                .context("Couldn't load api token. Try `pmis auth` first")?,
+                .context("Couldn't load api token. Try `pmis auth` first")?
+                .trim()
+                .into(),
         })
     }
     pub fn save(key: String) -> Result<()> {
@@ -27,10 +29,6 @@ impl Session {
                 .context("Couldn't determine api key directory")?,
         )?;
         fs::write(&path, key).context("Couldn't write api key file")?;
-
-        let mut perms = fs::metadata(&path)?.permissions();
-        perms.set_readonly(true);
-        fs::set_permissions(&path, perms)?;
         Ok(())
     }
 }

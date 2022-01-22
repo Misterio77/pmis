@@ -1,9 +1,8 @@
-use anyhow::Result;
-use clap::{AppSettings::DisableHelpSubcommand, Parser, Subcommand};
-use reqwest::Url;
-use uuid::Uuid;
+use clap::{App, AppSettings::DisableHelpSubcommand, IntoApp, Parser, Subcommand};
+use clap_complete::{generate, Generator, Shell};
+use std::io;
 
-use std::path::PathBuf;
+use pmis::{operations, PathBuf, Result, Url, Uuid};
 
 #[derive(Parser)]
 #[clap(author, version, about)]
@@ -21,16 +20,22 @@ struct Cli {
 enum Commands {
     /// Lists pastes from a given user (or self, if owner is ommited)
     #[clap(alias = "l", alias = "ls")]
-    List { owner: Option<String> },
-    /// Downloads a given paste
-    #[clap(alias = "d", alias = "down")]
+    List {
+        owner: Option<String>,
+        /// Only outputs ids, useful for scripting
+        #[clap(short, long)]
+        ids_only: bool,
+    },
+    /// Downloads and shows a given paste (gets raw paste if piped)
+    #[clap(alias = "d", alias = "down", alias = "get")]
     Download {
         id: Uuid,
+        /// Raw paste output, even on interactive terminals
         #[clap(short, long)]
         raw: bool,
     },
     /// Uploads a file and creates a new paste. Requires authentication
-    #[clap(alias = "u", alias = "up")]
+    #[clap(alias = "u", alias = "up", alias = "create", alias = "post")]
     Upload {
         /// File to upload. If ommited, reads from stdin
         file: Option<PathBuf>,
@@ -44,29 +49,42 @@ enum Commands {
         /// by its link.
         #[clap(short, long)]
         unlisted: bool,
+        /// Output only new paste link, even on interactive terminals
+        #[clap(short, long)]
+        link_only: bool,
     },
     /// Deletes a given paste. Requires authentication
     #[clap(alias = "del")]
     Delete { id: Uuid },
+    /// Authenticates using an API key
+    Auth,
+    /// Generate shell completions
+    Completions { shell: Shell },
 }
 
-use pmis::operations;
+fn print_completions<G: Generator>(gen: G, app: &mut App) {
+    generate(gen, app, app.get_name().to_string(), &mut io::stdout());
+}
 
 #[tokio::main]
 async fn main() -> Result<()> {
     let cli = Cli::parse();
     let api = cli.api;
+    let mut app = Cli::into_app();
 
     match cli.command {
-        Commands::List { owner } => operations::list(api, owner),
+        Commands::List { owner, ids_only } => operations::list(api, owner, ids_only).await?,
         Commands::Download { id, raw } => operations::download(api, id, raw).await?,
         Commands::Upload {
             file,
             title,
             description,
             unlisted,
-        } => operations::upload(api, file, title, description, unlisted),
-        Commands::Delete { id } => operations::delete(api, id),
+            link_only,
+        } => operations::upload(api, file, title, description, unlisted, link_only).await?,
+        Commands::Delete { id } => operations::delete(api, id).await?,
+        Commands::Auth => operations::auth(api).await?,
+        Commands::Completions { shell } => print_completions(shell, &mut app),
     }
 
     Ok(())

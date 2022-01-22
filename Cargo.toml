@@ -1,7 +1,7 @@
 [package]
 name = "pmis"
 description = "Companion CLI tool for paste.misterio.me"
-version = "0.1.0"
+version = "1.0.0-pre.1"
 authors = [ "Gabriel Fontes <eu@misterio.me>" ]
 readme = "README.md"
 repository = "https://sr.ht/~misterio/paste.misterio.me"
@@ -49,3 +49,6 @@ version = "0.2"
 version = "0.19"
 default-features = false
 features = ["regex-onig", "paging"]
+
+[dependencies.clap_complete]
+version = "3.0"
