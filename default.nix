@@ -21,7 +21,7 @@ rustPlatform.buildRustPackage rec {
   '';
 
   meta = with lib; {
-    description = manifest.desciption;
+    description = manifest.description;
     homepage = manifest.homepage;
     license = licenses.gpl3Plus;
     platforms = platforms.all;
