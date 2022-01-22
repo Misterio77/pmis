@@ -9,7 +9,7 @@ use std::path::PathBuf;
 #[clap(author, version, about)]
 #[clap(global_setting(DisableHelpSubcommand))]
 struct Cli {
-    /// API URL to use, defaults to https://paste.misterio.me
+    /// API URL to use
     #[clap(long, default_value = "https://paste.misterio.me")]
     api: Url,
 
