@@ -1,4 +1,4 @@
-{ lib, rustPlatform, openssl, pkgconfig }:
+{ lib, rustPlatform, openssl, pkg-config }:
 
 let manifest = (lib.importTOML ./Cargo.toml).package;
 in rustPlatform.buildRustPackage rec {
@@ -9,7 +9,8 @@ in rustPlatform.buildRustPackage rec {
 
   cargoLock.lockFile = ./Cargo.lock;
 
-  buildInputs = [openssl pkgconfig];
+  buildInputs = [openssl];
+  nativeBuildInputs = [ pkg-config ];
 
   meta = with lib; {
     description = manifest.desciption;

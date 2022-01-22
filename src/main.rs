@@ -48,13 +48,14 @@ enum Commands {
 
 use pmis::operations;
 
-fn main() -> Result<()> {
+#[tokio::main]
+async fn main() -> Result<()> {
     let cli = Cli::parse();
     let api = cli.api;
 
     match cli.command {
         Commands::List { owner } => operations::list(api, owner),
-        Commands::Download { id } => operations::download(api, id),
+        Commands::Download { id } => operations::download(api, id).await?,
         Commands::Upload {
             file,
             title,

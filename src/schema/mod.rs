@@ -1,2 +1,2 @@
 pub mod paste;
-pub mod user;
+pub use paste::Paste;
