@@ -79,11 +79,13 @@ dependencies = [
  "encoding",
  "flate2",
  "globset",
+ "grep-cli",
  "once_cell",
  "path_abs",
  "semver",
  "serde",
  "serde_yaml",
+ "shell-words",
  "syntect",
  "thiserror",
  "unicode-width",
@@ -110,7 +112,9 @@ version = "0.2.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ba3569f383e8f1598449f1a423e72e99569137b47740b1da11ef19af3d5c3223"
 dependencies = [
+ "lazy_static",
  "memchr",
+ "regex-automata",
 ]
 
 [[package]]
@@ -463,6 +467,23 @@ dependencies = [
  "fnv",
  "log",
  "regex",
+]
+
+[[package]]
+name = "grep-cli"
+version = "0.1.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2dd110c34bb4460d0de5062413b773e385cbf8a85a63fc535590110a09e79e8a"
+dependencies = [
+ "atty",
+ "bstr",
+ "globset",
+ "lazy_static",
+ "log",
+ "regex",
+ "same-file",
+ "termcolor",
+ "winapi-util",
 ]
 
 [[package]]
@@ -1031,6 +1052,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "regex-automata"
+version = "0.1.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6c230d73fb8d8c1b9c0b3135c5142a8acee3a0558fb8db5cf1cb65f8d7862132"
+
+[[package]]
 name = "regex-syntax"
 version = "0.6.25"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1201,6 +1228,12 @@ dependencies = [
  "serde",
  "yaml-rust",
 ]
+
+[[package]]
+name = "shell-words"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b6fa3938c99da4914afedd13bf3d79bcb6c277d1b2c398d23257a304d9e1b074"
 
 [[package]]
 name = "signal-hook-registry"

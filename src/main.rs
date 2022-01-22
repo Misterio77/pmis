@@ -24,7 +24,11 @@ enum Commands {
     List { owner: Option<String> },
     /// Downloads a given paste
     #[clap(alias = "d", alias = "down")]
-    Download { id: Uuid },
+    Download {
+        id: Uuid,
+        #[clap(short, long)]
+        raw: bool,
+    },
     /// Uploads a file and creates a new paste. Requires authentication
     #[clap(alias = "u", alias = "up")]
     Upload {
@@ -55,7 +59,7 @@ async fn main() -> Result<()> {
 
     match cli.command {
         Commands::List { owner } => operations::list(api, owner),
-        Commands::Download { id } => operations::download(api, id).await?,
+        Commands::Download { id, raw } => operations::download(api, id, raw).await?,
         Commands::Upload {
             file,
             title,
