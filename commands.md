@@ -28,11 +28,5 @@ pmis user [username]
     Defaults to own user, if authenticated.
 
 
-pmis register <username> <email>
-    Reads password interactively from STDIN
-
-pmis login <username>
-    Reads password interactively from STDIN
-
-pmis logout
-    -a --all
+pmis auth <token>
+    Reads from STDIN if file is empty or -

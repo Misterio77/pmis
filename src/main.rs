@@ -1,8 +1,9 @@
+use anyhow::Result;
 use clap::{AppSettings::DisableHelpSubcommand, Parser, Subcommand};
-use email_address::EmailAddress;
 use reqwest::Url;
-use std::path::PathBuf;
 use uuid::Uuid;
+
+use std::path::PathBuf;
 
 #[derive(Parser)]
 #[clap(author, version, about)]
@@ -21,7 +22,10 @@ enum Commands {
     /// Lists pastes from a given user (or self, if owner is ommited)
     #[clap(alias = "l", alias = "ls")]
     List { owner: Option<String> },
-    /// Uploads a file and creates a new paste
+    /// Downloads a given paste
+    #[clap(alias = "d", alias = "down")]
+    Download { id: Uuid },
+    /// Uploads a file and creates a new paste. Requires authentication
     #[clap(alias = "u", alias = "up")]
     Upload {
         /// File to upload. If ommited, reads from stdin
@@ -37,49 +41,28 @@ enum Commands {
         #[clap(short, long)]
         unlisted: bool,
     },
-    /// Downloads a given paste
-    #[clap(alias = "d", alias = "down")]
-    Download { id: Uuid },
-    /// Deletes a given paste
+    /// Deletes a given paste. Requires authentication
     #[clap(alias = "del")]
     Delete { id: Uuid },
-    /// Registers a new account. Password is read from STDIN
-    Register {
-        username: String,
-        email: EmailAddress,
-    },
-    /// Logs into your account. Password is read from STDIN
-    Login { username: String },
-    /// Logs out of your account
-    Logout {
-        /// If specified, will revoke all other sessions as well.
-        #[clap(short, long)]
-        all: bool,
-    },
-    /// Shows info on a given user (or self, if owner is ommited)
-    User { username: Option<String> },
 }
 
 use pmis::operations;
 
-fn main() {
+fn main() -> Result<()> {
     let cli = Cli::parse();
-
     let api = cli.api;
 
     match cli.command {
         Commands::List { owner } => operations::list(api, owner),
+        Commands::Download { id } => operations::download(api, id),
         Commands::Upload {
             file,
             title,
             description,
             unlisted,
         } => operations::upload(api, file, title, description, unlisted),
-        Commands::Download { id } => operations::download(api, id),
         Commands::Delete { id } => operations::delete(api, id),
-        Commands::Register { username, email } => operations::register(api, username, email),
-        Commands::Login { username } => operations::login(api, username),
-        Commands::Logout { all } => operations::logout(api, all),
-        Commands::User { username } => operations::user(api, username),
     }
+
+    Ok(())
 }
