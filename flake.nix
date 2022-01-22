@@ -14,7 +14,9 @@
       };
       overlays = [ overlay ];
     in
-    {
+    rec {
+      homeManagerModules.${name} = import ./module.nix;
+      homeManagerModule = homeManagerModules.${name};
       inherit overlay overlays;
     } //
     (utils.lib.eachDefaultSystem (system:
