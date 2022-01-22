@@ -21,8 +21,6 @@ pub async fn list(api: Url, owner: Option<String>, ids_only: bool) -> Result<()>
         return Err(anyhow!("You must either specify which user to show or be authenticated. Try specifying an user or authenticating with `pmis auth`"));
     }
 
-    println!("{:?}", res);
-
     let pastes: Vec<Paste> = res.error_for_status()?.json().await?;
 
     if !ids_only {
